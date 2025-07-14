@@ -6,11 +6,15 @@ This project deploys a scalable and highly available web application on AWS usin
 It demonstrates best practices for compute scalability, security, and cost optimization.
 
 ## 2. Solution Architecture 
+The architecture is designed for high availability, fault tolerance, and scalability. Traffic enters through an Application Load Balancer, which distributes it across multiple EC2 instances running the web application. These instances are managed by an Auto Scaling Group, ensuring that the number of active instances adjusts dynamically based on demand. An optional Amazon RDS instance provides a highly available, managed database backend.
+
 ![Solution Architecture diagram](./solution-architecture-diagram.png)
 
 **Traffic Flow:**
 
-- Users access the web application via the ALB's DNS name.
+- Users initiate a request to the web application's domain name (e.g., www.example.com).
+- This request is first sent to a DNS service (like Amazon Route 53), which resolves the domain name to the ALB's IP address.
+- The user's browser then accesses the web application via the ALB's IP address (which is associated with its DNS name).
 - The ALB distributes incoming requests to healthy EC2 instances across multiple Availability Zones.
 - The Auto Scaling Group monitors the health and performance of the EC2 instances.
 - If demand increases (e.g., CPU utilization rises), the ASG launches new instances. If demand decreases, it terminates instances to save costs.
